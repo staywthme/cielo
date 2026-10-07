@@ -1,0 +1,1567 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Cielo — Todo lo que todavía sueño contigo</title>
+
+    <!-- Fuentes de Google: Playfair Display (títulos), Lora (cuerpo), Inter (UI) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==============================
+           RESET Y VARIABLES
+        ============================== */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --rose-deep: #7a1f3d;
+            --rose-medium: #a83b5e;
+            --rose-soft: #d98ba3;
+            --rose-pale: #fce4ec;
+            --gold-deep: #b8860b;
+            --gold-medium: #d4a017;
+            --gold-light: #f5d76e;
+            --cream: #fffaf0;
+            --text-dark: #3d1f2b;
+            --text-medium: #6b4455;
+            --text-light: #9c7a88;
+            --shadow-soft: 0 20px 60px rgba(122, 31, 61, 0.08);
+            --shadow-medium: 0 15px 40px rgba(122, 31, 61, 0.12);
+            --shadow-strong: 0 30px 80px rgba(122, 31, 61, 0.18);
+            --radius-card: 28px;
+            --radius-pill: 50px;
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-body: 'Lora', Georgia, serif;
+            --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-dark);
+            background: #fdf8f3;
+            background-image:
+                radial-gradient(circle at 10% 20%, rgba(255, 240, 200, 0.6), transparent 40%),
+                radial-gradient(circle at 90% 15%, rgba(255, 220, 235, 0.5), transparent 35%),
+                radial-gradient(circle at 50% 80%, rgba(255, 230, 180, 0.3), transparent 45%);
+            background-attachment: fixed;
+            overflow-x: hidden;
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* ==============================
+           PÉTALOS CAYENDO
+        ============================== */
+        .background-petals {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .petal {
+            position: absolute;
+            top: -60px;
+            font-size: 24px;
+            opacity: 0;
+            animation: falling linear infinite;
+            filter: drop-shadow(0 4px 6px rgba(200, 150, 50, 0.15));
+        }
+
+        .petal:nth-child(1) { left: 5%; animation-duration: 14s; animation-delay: 0s; }
+        .petal:nth-child(2) { left: 20%; animation-duration: 18s; animation-delay: 2s; }
+        .petal:nth-child(3) { left: 38%; animation-duration: 13s; animation-delay: 5s; }
+        .petal:nth-child(4) { left: 57%; animation-duration: 17s; animation-delay: 1s; }
+        .petal:nth-child(5) { left: 76%; animation-duration: 15s; animation-delay: 4s; }
+        .petal:nth-child(6) { left: 91%; animation-duration: 19s; animation-delay: 7s; }
+
+        @keyframes falling {
+            0% { transform: translateY(-60px) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.7; }
+            90% { opacity: 0.7; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* ==============================
+           HERO
+        ============================== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 60px 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-card {
+            width: min(880px, 100%);
+            padding: clamp(50px, 8vw, 80px) clamp(24px, 6vw, 60px);
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            box-shadow: var(--shadow-strong);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 40px;
+            padding: 2px;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.3), rgba(255, 182, 193, 0.3), rgba(255, 215, 0, 0.3));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+
+        .flowers {
+            font-size: clamp(40px, 8vw, 60px);
+            margin-bottom: 24px;
+            animation: flowerFloat 5s ease-in-out infinite;
+            display: inline-block;
+        }
+
+        @keyframes flowerFloat {
+            0%, 100% { transform: translateY(0) rotate(-2deg); }
+            50% { transform: translateY(-14px) rotate(2deg); }
+        }
+
+        .small-title {
+            font-family: var(--font-ui);
+            text-transform: uppercase;
+            letter-spacing: 6px;
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--gold-deep);
+            margin-bottom: 24px;
+            opacity: 0.9;
+        }
+
+        h1 {
+            font-family: var(--font-display);
+            font-size: clamp(3rem, 9vw, 7rem);
+            font-weight: 600;
+            color: var(--rose-deep);
+            line-height: 0.95;
+            margin-bottom: 28px;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-subtitle {
+            font-family: var(--font-body);
+            font-size: clamp(1.05rem, 2.2vw, 1.3rem);
+            line-height: 1.85;
+            max-width: 620px;
+            margin: 0 auto;
+            color: var(--text-medium);
+            font-weight: 400;
+        }
+
+        .scroll-button {
+            display: inline-block;
+            margin-top: 40px;
+            padding: 16px 36px;
+            border-radius: var(--radius-pill);
+            background: linear-gradient(135deg, var(--gold-medium), var(--gold-light));
+            color: #fff;
+            text-decoration: none;
+            font-family: var(--font-ui);
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+            box-shadow: 0 10px 30px rgba(212, 160, 23, 0.3);
+            transition: all 0.4s cubic-bezier(0.2, 0.8, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scroll-button::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s;
+        }
+
+        .scroll-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 18px 40px rgba(212, 160, 23, 0.4);
+        }
+
+        .scroll-button:hover::after {
+            transform: translateX(100%);
+        }
+
+        /* ==============================
+           SECCIONES
+        ============================== */
+        section {
+            padding: clamp(70px, 10vw, 110px) 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-container {
+            width: min(1000px, 100%);
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 55px;
+        }
+
+        .section-title span {
+            display: block;
+            font-family: var(--font-ui);
+            color: var(--gold-deep);
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            font-size: 11px;
+            font-weight: 500;
+            margin-bottom: 16px;
+            opacity: 0.9;
+        }
+
+        .section-title h2 {
+            font-family: var(--font-display);
+            font-size: clamp(1.9rem, 4.5vw, 3.2rem);
+            font-weight: 600;
+            color: var(--rose-deep);
+            line-height: 1.15;
+            letter-spacing: -0.01em;
+        }
+
+        /* ==============================
+           CARTA
+        ============================== */
+        .letter {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: clamp(36px, 6vw, 70px);
+            border-radius: var(--radius-card);
+            box-shadow: var(--shadow-medium);
+            line-height: 2;
+            font-size: clamp(1rem, 1.8vw, 1.1rem);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            position: relative;
+        }
+
+        .letter::before {
+            content: '"';
+            position: absolute;
+            top: -10px;
+            left: 30px;
+            font-family: var(--font-display);
+            font-size: 120px;
+            color: rgba(212, 160, 23, 0.12);
+            line-height: 1;
+            pointer-events: none;
+        }
+
+        .letter p {
+            margin-bottom: 26px;
+            color: var(--text-dark);
+        }
+
+        .letter p:last-of-type {
+            margin-bottom: 0;
+        }
+
+        .letter .highlight {
+            color: var(--rose-deep);
+            font-weight: 600;
+            background: linear-gradient(180deg, transparent 60%, rgba(255, 215, 0, 0.25) 60%);
+            padding: 0 2px;
+        }
+
+        .letter strong {
+            color: var(--rose-medium);
+            font-weight: 600;
+        }
+
+        .signature {
+            margin-top: 50px;
+            text-align: right;
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-style: italic;
+            color: var(--rose-medium);
+            line-height: 1.6;
+        }
+
+        /* ==============================
+           FRASE CENTRAL
+        ============================== */
+        .quote-section {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 182, 193, 0.2));
+            text-align: center;
+            padding: clamp(60px, 10vw, 100px) 24px;
+        }
+
+        .quote {
+            max-width: 820px;
+            margin: 0 auto;
+            font-family: var(--font-display);
+            font-size: clamp(1.5rem, 3.5vw, 2.6rem);
+            line-height: 1.55;
+            color: var(--rose-deep);
+            font-style: italic;
+            font-weight: 400;
+            position: relative;
+            padding: 0 20px;
+        }
+
+        .quote::before,
+        .quote::after {
+            content: '"';
+            font-family: var(--font-display);
+            font-size: 4rem;
+            color: rgba(212, 160, 23, 0.3);
+            position: absolute;
+            line-height: 1;
+        }
+
+        .quote::before {
+            top: -20px;
+            left: -10px;
+        }
+
+        .quote::after {
+            content: '"';
+            bottom: -40px;
+            right: -10px;
+        }
+
+        /* ==============================
+           FLORES AMARILLAS
+        ============================== */
+        .yellow-flower-box {
+            background: linear-gradient(135deg, #fff9e0, #ffeaa0);
+            border-radius: 32px;
+            padding: clamp(40px, 6vw, 70px) clamp(24px, 5vw, 50px);
+            text-align: center;
+            box-shadow: 0 25px 60px rgba(181, 132, 15, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .yellow-flower-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.5), transparent 70%);
+            border-radius: 50%;
+        }
+
+        .big-flower {
+            font-size: clamp(70px, 12vw, 100px);
+            display: inline-block;
+            animation: flowerDance 4s ease-in-out infinite;
+            filter: drop-shadow(0 10px 20px rgba(200, 150, 20, 0.25));
+        }
+
+        @keyframes flowerDance {
+            0%, 100% { transform: rotate(-5deg) translateY(0); }
+            50% { transform: rotate(5deg) translateY(-12px); }
+        }
+
+        .yellow-flower-box h2 {
+            font-family: var(--font-display);
+            margin: 20px 0;
+            color: var(--gold-deep);
+            font-size: clamp(1.6rem, 4vw, 2.4rem);
+            font-weight: 600;
+        }
+
+        .yellow-flower-box p {
+            max-width: 680px;
+            margin: 0 auto;
+            line-height: 1.9;
+            color: #6b4e1a;
+            font-size: clamp(1rem, 1.8vw, 1.1rem);
+        }
+
+        /* ==============================
+           GALERÍA
+        ============================== */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+        }
+
+        .memory {
+            background: #fff;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: var(--shadow-medium);
+            transition: all 0.5s cubic-bezier(0.2, 0.8, 0.3, 1);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+
+        .memory:hover {
+            transform: translateY(-10px) rotate(-1deg);
+            box-shadow: var(--shadow-strong);
+        }
+
+        .memory img,
+        .memory video {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            display: block;
+            background: #f5e6d3;
+        }
+
+        .memory-caption {
+            padding: 24px 20px;
+            text-align: center;
+        }
+
+        .memory-caption h3 {
+            font-family: var(--font-display);
+            color: var(--rose-deep);
+            margin-bottom: 10px;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .memory-caption p {
+            color: var(--text-medium);
+            line-height: 1.65;
+            font-size: 0.92rem;
+            font-family: var(--font-body);
+        }
+
+        /* ==============================
+           ROBLOX
+        ============================== */
+        .roblox-section {
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .roblox-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            padding: 28px;
+            border-radius: 28px;
+            box-shadow: var(--shadow-medium);
+            margin-bottom: 32px;
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            transition: transform 0.4s ease;
+        }
+
+        .roblox-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .roblox-card img {
+            width: 100%;
+            max-height: 560px;
+            object-fit: cover;
+            border-radius: 20px;
+            background: #f5e6d3;
+        }
+
+        .roblox-text {
+            padding: 28px 12px 8px;
+            text-align: center;
+            line-height: 1.75;
+        }
+
+        .roblox-text h3 {
+            font-family: var(--font-display);
+            color: var(--rose-deep);
+            font-size: 1.4rem;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .roblox-text p {
+            color: var(--text-medium);
+            font-size: 1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ==============================
+           CALENDARIO
+        ============================== */
+        .calendar {
+            display: grid;
+            gap: 20px;
+        }
+
+        .date-card {
+            position: relative;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            border-radius: 22px;
+            padding: 28px;
+            display: grid;
+            grid-template-columns: 90px 1fr;
+            gap: 24px;
+            align-items: center;
+            box-shadow: 0 12px 32px rgba(122, 31, 61, 0.08);
+            transition: all 0.4s cubic-bezier(0.2, 0.8, 0.3, 1);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+        }
+
+        .date-card:hover {
+            transform: translateX(8px);
+            box-shadow: 0 18px 45px rgba(122, 31, 61, 0.14);
+        }
+
+        .date-number {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, var(--gold-medium), var(--gold-light));
+            color: #fff;
+            box-shadow: 0 10px 25px rgba(212, 160, 23, 0.3);
+            font-family: var(--font-ui);
+            flex-shrink: 0;
+        }
+
+        .date-number strong {
+            font-size: 1.3rem;
+            font-weight: 600;
+            line-height: 1.1;
+        }
+
+        .date-number small {
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            opacity: 0.9;
+        }
+
+        .date-card h3 {
+            font-family: var(--font-display);
+            color: var(--rose-deep);
+            margin-bottom: 8px;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .date-card p {
+            line-height: 1.65;
+            color: var(--text-medium);
+            font-size: 0.98rem;
+        }
+
+        /* ==============================
+           CORAZÓN INTERACTIVO
+        ============================== */
+        .heart-section {
+            text-align: center;
+            background: linear-gradient(180deg, var(--rose-pale), #fff5d9);
+            padding: clamp(70px, 10vw, 110px) 24px;
+        }
+
+        .heart {
+            border: none;
+            background: transparent;
+            font-size: clamp(80px, 15vw, 120px);
+            cursor: pointer;
+            transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.3, 1);
+            filter: drop-shadow(0 12px 20px rgba(180, 30, 80, 0.2));
+            line-height: 1;
+            display: inline-block;
+        }
+
+        .heart:hover {
+            transform: scale(1.15);
+        }
+
+        .heart:active {
+            transform: scale(0.9);
+        }
+
+        .heart-message {
+            min-height: 70px;
+            max-width: 720px;
+            margin: 28px auto 0;
+            font-family: var(--font-display);
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+            line-height: 1.65;
+            color: var(--rose-deep);
+            font-style: italic;
+            transition: opacity 0.3s ease;
+        }
+
+        /* ==============================
+           FUTURO
+        ============================== */
+        .future-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+        }
+
+        .future-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            padding: 36px 26px;
+            border-radius: 24px;
+            text-align: center;
+            box-shadow: var(--shadow-medium);
+            transition: all 0.4s ease;
+            border: 1px solid rgba(255, 255, 255, 0.7);
+        }
+
+        .future-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-strong);
+        }
+
+        .future-card .icon {
+            font-size: 48px;
+            margin-bottom: 18px;
+            display: block;
+            filter: drop-shadow(0 6px 12px rgba(200, 150, 50, 0.2));
+        }
+
+        .future-card h3 {
+            font-family: var(--font-display);
+            color: var(--rose-deep);
+            margin-bottom: 12px;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .future-card p {
+            color: var(--text-medium);
+            line-height: 1.65;
+            font-size: 0.95rem;
+        }
+
+        /* ==============================
+           PROMESA
+        ============================== */
+        .promise {
+            max-width: 860px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            border-radius: 32px;
+            padding: clamp(40px, 6vw, 70px);
+            box-shadow: var(--shadow-strong);
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .promise h2 {
+            font-family: var(--font-display);
+            color: var(--rose-deep);
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            margin-bottom: 28px;
+            font-weight: 600;
+        }
+
+        .promise p {
+            line-height: 1.95;
+            margin-bottom: 24px;
+            color: var(--text-medium);
+            font-size: clamp(1rem, 1.8vw, 1.08rem);
+        }
+
+        .promise strong {
+            color: var(--rose-deep);
+            font-weight: 600;
+        }
+
+        /* ==============================
+           FINAL
+        ============================== */
+        .final-section {
+            min-height: 80vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: clamp(60px, 10vw, 100px) 24px;
+        }
+
+        .final-card {
+            max-width: 820px;
+            padding: 50px 30px;
+        }
+
+        .final-card h2 {
+            font-family: var(--font-display);
+            font-size: clamp(2.2rem, 6vw, 4.5rem);
+            color: var(--rose-deep);
+            margin-bottom: 28px;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+
+        .final-card p {
+            font-size: clamp(1.05rem, 2vw, 1.18rem);
+            line-height: 1.9;
+            color: var(--text-medium);
+            margin-bottom: 22px;
+        }
+
+        .final-card strong {
+            color: var(--rose-deep);
+            font-weight: 600;
+        }
+
+        .final-signature {
+            margin-top: 40px;
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            font-style: italic;
+            color: var(--rose-medium);
+            line-height: 1.6;
+        }
+
+        footer {
+            text-align: center;
+            padding: 36px 24px;
+            color: var(--text-light);
+            font-family: var(--font-ui);
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(10px);
+        }
+
+        /* ==============================
+           BOTÓN DE MÚSICA
+        ============================== */
+        .music-btn {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            z-index: 1000;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            border: none;
+            background: linear-gradient(135deg, var(--gold-medium), var(--gold-light));
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(212, 160, 23, 0.35);
+            transition: all 0.4s cubic-bezier(0.2, 0.8, 0.3, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .music-btn:hover {
+            transform: scale(1.1) translateY(-3px);
+            box-shadow: 0 15px 40px rgba(212, 160, 23, 0.45);
+        }
+
+        .music-btn.playing {
+            animation: pulseMusic 2s infinite;
+        }
+
+        @keyframes pulseMusic {
+            0%, 100% { box-shadow: 0 10px 30px rgba(212, 160, 23, 0.35); }
+            50% { box-shadow: 0 10px 40px rgba(212, 160, 23, 0.6), 0 0 0 12px rgba(212, 160, 23, 0.1); }
+        }
+
+        .music-btn .icon-pause,
+        .music-btn .icon-play {
+            transition: opacity 0.2s;
+        }
+
+        .music-btn .icon-pause { display: none; }
+        .music-btn.playing .icon-pause { display: block; }
+        .music-btn.playing .icon-play { display: none; }
+
+        /* ==============================
+           RESPONSIVE
+        ============================== */
+        @media (max-width: 600px) {
+            .hero-card {
+                padding: 40px 22px;
+                border-radius: 30px;
+            }
+
+            .letter::before {
+                font-size: 80px;
+                left: 15px;
+            }
+
+            .date-card {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 16px;
+            }
+
+            .date-number {
+                margin: 0 auto;
+            }
+
+            .memory img,
+            .memory video {
+                height: 320px;
+            }
+
+            .quote::before,
+            .quote::after {
+                display: none;
+            }
+
+            .music-btn {
+                bottom: 20px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+        }
+
+        /* ==============================
+           ANIMACIONES DE ENTRADA
+        ============================== */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- AUDIO DE FONDO (oculto) -->
+<audio id="bgMusic" loop preload="auto">
+    <source src="https://cdn.pixabay.com/download/audio/2022/10/25/audio_946bc2e0e5.mp3?filename=kris-r-4-life-124298.mp3" type="audio/mpeg">
+    <!-- NOTA: Reemplaza este enlace con la URL real de tu archivo de audio "4 Life" de Kris R -->
+</audio>
+
+<!-- Botón flotante de música -->
+<button class="music-btn" id="musicBtn" aria-label="Reproducir música de fondo" title="Reproducir 4 Life - Kris R">
+    <span class="icon-play">▶</span>
+    <span class="icon-pause">❚❚</span>
+</button>
+
+<div class="background-petals">
+    <div class="petal">🌼</div>
+    <div class="petal">🌸</div>
+    <div class="petal">💛</div>
+    <div class="petal">🌼</div>
+    <div class="petal">🌷</div>
+    <div class="petal">🌼</div>
+</div>
+
+
+<!-- =========================================
+     PORTADA
+========================================= -->
+<section class="hero" id="inicio">
+    <div class="hero-card">
+        <div class="flowers">🌼 🌻 🌼</div>
+
+        <div class="small-title">Una carta que no cabe en una sola página</div>
+
+        <h1>Para Cielo</h1>
+
+        <p class="hero-subtitle">
+            No hice esto para borrar lo que pasó.
+            Lo hice porque hay cosas que siento que merecen ser dichas
+            con calma, con sinceridad y sin esconderme detrás de unas
+            simples palabras.
+        </p>
+
+        <a href="#carta" class="scroll-button">
+            Leer lo que nunca supe decir
+        </a>
+    </div>
+</section>
+
+
+<!-- =========================================
+     CARTA
+========================================= -->
+<section id="carta">
+    <div class="section-container">
+        <div class="section-title">
+            <span>Desde el corazón</span>
+            <h2>Cielo, necesito pedirte perdón</h2>
+        </div>
+
+        <div class="letter">
+            <p>Cielo:</p>
+
+            <p>
+                Sé que probablemente lo último que quieres en este momento
+                es leer algo mío. Sé que quizá mis palabras ya no tienen
+                el mismo valor que antes, y entiendo completamente por qué.
+                Por eso no quiero comenzar intentando justificarme.
+            </p>
+
+            <p>
+                Quiero comenzar diciendo algo mucho más sencillo:
+                <span class="highlight">perdón.</span>
+            </p>
+
+            <p>
+                Perdón por no haber sido completamente honesto contigo.
+                Perdón por haber tomado decisiones que terminaron lastimando
+                a una persona que solamente quería confiar en mí.
+                Perdón por haber hecho que algo tan bonito terminara
+                lleno de dudas, dolor y decepción.
+            </p>
+
+            <p>
+                He pensado muchísimo en todo esto. Y mientras más lo pienso,
+                más entiendo que decir "no quise hacerlo" no cambia lo que
+                provocó. Que decir "lo siento" tampoco devuelve automáticamente
+                la confianza.
+            </p>
+
+            <p>
+                Por eso no quiero venderte una promesa vacía.
+                No quiero decirte simplemente que voy a cambiar porque sé
+                que las palabras son fáciles cuando uno tiene miedo de perder
+                a alguien.
+            </p>
+
+            <p>
+                Lo que quiero decirte es que <span class="highlight">
+                entendí que tenía que cambiar incluso aunque tú no volvieras.
+                </span>
+            </p>
+
+            <p>
+                Porque si realmente te quiero, entonces no debería querer
+                solamente que regreses. Debería querer convertirme en alguien
+                que nunca vuelva a hacerte sentir lo que te hice sentir.
+            </p>
+
+            <p>
+                Y sí...
+                <strong>quiero seguir teniendo una vida contigo.</strong>
+            </p>
+
+            <p>
+                Quiero conocer todos esos días normales que todavía no
+                conocemos. Quiero los cumpleaños, las navidades, los días
+                sin ninguna razón especial, las caminatas, las conversaciones
+                hasta tarde, las fotos tontas, los regalos inesperados,
+                los pequeños detalles y hasta las discusiones que algún día
+                podamos resolver hablando como dos personas que se aman.
+            </p>
+
+            <p>Quiero todo eso contigo.</p>
+
+            <p>
+                Pero también entiendo algo:
+                <span class="highlight">
+                no puedo exigirte que quieras lo mismo.
+                </span>
+            </p>
+
+            <p>
+                Si necesitas distancia, voy a respetarla.
+                Si necesitas tiempo, lo voy a entender.
+                Y si algún día decides que definitivamente no quieres volver,
+                me va a doler muchísimo, pero no voy a convertir mi amor por ti                en una razón para hacerte sentir atrapada.
+            </p>
+
+            <p>
+                Lo único que deseo es que algún día, cuando recuerdes mi nombre,
+                puedas pensar que al menos fui capaz de reconocer mis errores
+                y hacer algo real para ser mejor.
+            </p>
+
+            <p>
+                Y si alguna vez me das otra oportunidad...
+                no quiero recibirla como si nada hubiera pasado.
+            </p>
+
+            <p>Quiero ganármela.</p>
+
+            <p>
+                Día por día.
+                Con paciencia.
+                Con transparencia.
+                Con hechos.
+            </p>
+
+            <div class="signature">
+                Siempre con cariño,<br>
+                alguien que todavía te quiere muchísimo.
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- =========================================
+     FRASE
+========================================= -->
+<section class="quote-section">
+    <div class="quote">
+        “No quiero que vuelvas porque te convencí.
+        Quiero que, si algún día vuelves, sea porque viste
+        que aprendí a cuidar lo que antes no supe cuidar.”
+    </div>
+</section>
+
+
+<!-- =========================================
+     FLORES AMARILLAS
+========================================= -->
+<section>
+    <div class="section-container">
+        <div class="yellow-flower-box">
+            <div class="big-flower">🌻</div>
+
+            <h2>También te habría regalado flores amarillas</h2>
+
+            <p>
+                No solamente por una fecha.
+                No solamente porque estén de moda.
+                Sino porque me gusta imaginar que algún día podría aparecer
+                frente a ti con un ramo de flores amarillas y decirte:
+                “No necesito una ocasión especial para recordarte cuánto
+                significas para mí.”
+            </p>
+        </div>
+    </div>
+</section>
+
+
+<!-- =========================================
+     RECUERDOS
+========================================= -->
+<section>
+    <div class="section-container">
+        <div class="section-title">
+            <span>Nuestros recuerdos</span>
+            <h2>Momentos que quiero guardar</h2>
+        </div>
+
+        <div class="gallery">
+            <!-- VIDEO 1 -->
+            <div class="memory">
+                <video controls playsinline preload="metadata">
+                    <source src="https://cdn.discordapp.com/attachments/1547235316564234380/1548118965316747405/ssstik.io_1789170712642.mp4?ex=6ac783e3&is=6ac63263&hm=eff3ff3d6483ab819ad07f009f17ed86500af67d892c5c11fe172039dc073b29&" type="video/mp4">
+                </video>
+                <div class="memory-caption">
+                    <h3>Tu sonrisa</h3>
+                    <p>Hay cosas que uno no debería olvidar, incluso cuando todo se vuelve complicado.</p>
+                </div>
+            </div>
+
+            <!-- VIDEO 2 -->
+            <div class="memory">
+                <video controls playsinline preload="metadata">
+                    <source src="https://cdn.discordapp.com/attachments/1547235316564234380/1548501207956590642/cielo_22yy_20260912_200700474.mp4?ex=6ac79661&is=6ac644e1&hm=2d6da861f066d67ccdc562c3a4ec35f44093541b60259faae650d3c3aa204630&" type="video/mp4">
+                </video>
+                <div class="memory-caption">
+                    <h3>Un pedacito de ti</h3>
+                    <p>Porque incluso los momentos pequeños pueden terminar significándolo todo.</p>
+                </div>
+            </div>
+
+            <!-- VIDEO 3 -->
+            <div class="memory">
+                <video controls playsinline preload="metadata">
+                    <source src="https://cdn.discordapp.com/attachments/1547235316564234380/1550096883538731018/cielo_22yy_20260917_054541451.mp4?ex=6ac775b8&is=6ac62438&hm=85adf18ec44e90acda135e2e7a17c89d7c88c772a863c3d5729aef419a3d9058&" type="video/mp4">
+                </video>
+                <div class="memory-caption">
+                    <h3>Lo que extraño</h3>
+                    <p>No solamente extraño tenerte. Extraño la versión de mí que existía cuando todo parecía estar bien entre nosotros.</p>
+                </div>
+            </div>
+
+            <!-- VIDEO 4 -->
+            <div class="memory">
+                <video controls playsinline preload="metadata">
+                    <source src="https://cdn.discordapp.com/attachments/1547235316564234380/1548501210963771483/cielo_22yy_20260912_200621503.mp4?ex=6ac79662&is=6ac644e2&hm=f5eafb8dce55bb42709a7b2add91a8e70bdfb168ef16be5acea1d1eab68c3bad&" type="video/mp4">
+                </video>
+                <div class="memory-caption">
+                    <h3>Quisiera volver a cuidar</h3>
+                    <p>Esta vez no con promesas, sino con acciones.</p>
+                </div>
+            </div>
+
+            <!-- VIDEO 5 -->
+            <div class="memory">
+                <img
+    src="https://cdn.discordapp.com/attachments/1547235316564234380/1547235349456097430/793001781_18092128340300296_2274461628075563727_n..jpg?ex=6ac798b5&is=6ac64735&hm=fc23c6bf9ea486060cc8976a41dd794d65d56129a7af753cea15c73ff28d6b25"
+    alt="Imagen"
+>
+                <div class="memory-caption">
+                    <h3>Porque eres tú</h3>
+                    <p>Entre millones de personas, hay alguien que consiguió quedarse en mi corazón.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- =========================================
+     ROBLOX
+========================================= -->
+<section class="roblox-section">
+    <div class="section-container">
+        <div class="section-title">
+            <span>Un mundo que compartimos</span>
+            <h2>Incluso en Roblox quería estar contigo</h2>
+        </div>
+
+        <div class="roblox-card">
+            <img src="https://cdn.discordapp.com/attachments/1546215587263553576/1546261089967280250/image0.jpg?ex=6ac7591b&is=6ac6079b&hm=8cc0124a048ddea427959597f7f02269d543f1db20f7cf6ecc4a228c0005c15b" alt="Recuerdo en Roblox">
+            <div class="roblox-text">
+                <h3>Un recuerdo más</h3>
+                <p>Puede parecer solamente un juego para cualquiera que lo vea desde afuera. Pero para mí, esos momentos tenían algo diferente: estaba compartiendo tiempo contigo.</p>
+            </div>
+        </div>
+
+        <div class="roblox-card">
+            <img src="https://cdn.discordapp.com/attachments/1546215587263553576/1547374468911866016/image.png?ex=6ac77186&is=6ac62006&hm=ac9a6074077114f67960b4b9193daf65b9f3f2d849ed3a3d0e80edf10d7c413a" alt="Recuerdo en Roblox">
+            <div class="roblox-text">
+                <h3>Pequeñas cosas</h3>
+                <p>Quizá algún día estos screenshots parezcan solamente imágenes viejas. Pero hoy significan algo para mí.</p>
+            </div>
+        </div>
+
+        <div class="roblox-card">
+            <img src="https://cdn.discordapp.com/attachments/1546215587263553576/1547397519368130560/image.png?ex=6ac786fd&is=6ac6357d&hm=6aedb9c5135f767d1a0d15c4b7c488c20527a18dc6d43c2903bc1c753ae83fbd" alt="Recuerdo en Roblox">
+            <div class="roblox-text">
+                <h3>Y si algún día...</h3>
+                <p>Quizá podamos volver a crear recuerdos. Esta vez cuidándolos mucho más.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- =========================================
+     CALENDARIO
+========================================= -->
+<section>
+    <div class="section-container">
+        <div class="section-title">
+            <span>Todo un año contigo</span>
+            <h2>Las fechas que me gustaría vivir a tu lado</h2>
+        </div>
+
+        <div class="calendar">
+            <div class="date-card">
+                <div class="date-number"><strong>01</strong><small>ENE</small></div>
+                <div>
+                    <h3>Año Nuevo 🎆</h3>
+                    <p>Empezar el año abrazados, deseándonos suerte, haciendo una lista de cosas que queremos vivir juntos y prometiéndonos que este año vamos a cuidarnos todavía más.</p>
+                </div>
+            </div>
+
+            <div class="date-card">
+                <div class="date-number"><strong>14</strong><small>FEB</small></div>
+                <div>
+                    <h3>San Valentín ❤️</h3>
+                    <p>Una carta escrita a mano, un pequeño regalo, flores y una cena. Pero sobre todo, recordar que amar no significa solamente decir “te amo”, sino saber cuidar.</p>
+                </div>
+            </div>
+
+            <div class="date-card">
+                <div class="date-number"><strong>MAR</strong><small>8</small></div>
+                <div>
+                    <h3>Un día para admirarte 🌷</h3>
+                    <p>No necesito una fecha para decirte que admiro la persona que eres. Pero si existe una ocasión para recordártelo, quiero aprovecharla.</p>
+                </div>
+            </div>
+
+            <div class="date-card">
+                <div class="date-number"><strong>ABR</strong><small>🌸</small></div>
+                <div>
+                    <h3>Nuestro mes de primavera</h3>
+                    <p>Una salida improvisada. Fotos. Algo dulce. Flores. Y simplemente caminar juntos sin preocuparnos por el reloj.</p>
+                </div>
+            </div>
+
+            <div class="date-card">
+                <div class="date-number"><strong>JUN</strong><small>💌</small></div>
+                <div>
+                    <h3>Una carta sin motivo</h3>
+                    <p>Porque las mejores cartas no deberían necesitar una fecha. Ese día simplemente te escribiría para decirte todas esas cosas que normalmente damos por sentadas.</p>
+                </div>
+            </div>
+
+            <div class="date-card">
+                <div class="date-number"><strong>AGO</strong><small>✨</small></div>
+                <div>
+                    <h3>Una aventura juntos</h3>
+                    <p>Un lugar nuevo, comida nueva, fotografías nuevas y una historia que todavía no exista.</p>
+                </div>
+            </div>
+
+            <div class="date-card">
+                <div class="date-number"><strong>21</strong><small>SEP</small></div>
+                <div>
+                    <h3>Flores amarillas 🌻</h3>
+                    <p>Un ramo enorme de flores amarillas. No como una obligación, sino como una manera de decir: “Quiero que mi vida tenga más días bonitos contigo.”</p>
+                </div>
+            </div>
+
+            <div class="date-card">
+                <div class="date-number"><strong>31</strong><small>OCT</small></div>
+                <div>
+                    <h3>Halloween 🎃</h3>
+                    <p>Disfraces ridículos, fotos juntos, películas de miedo y probablemente uno de los dos terminando asustando al otro.</p>
+                </div>
+            </div>
+
+            <div class="date-card">
+                <div class="date-number"><strong>24</strong><small>NOV</small></div>
+                <div>
+                    <h3>Amor y Amistad ❤️</h3>
+                    <p>Un corazón interactivo, una carta y una pregunta: “¿Sabes cuánto te quiero?” Y debajo, todas las razones por las que mi respuesta siempre sería demasiado larga.</p>
+                </div>
+            </div>
+
+            <div class="date-card">
+                <div class="date-number"><strong>24</strong><small>DIC</small></div>
+                <div>
+                    <h3>Navidad 🎄</h3>
+                    <p>Un regalito debajo del árbol, envolverlo con cuidado, ver tu reacción y pasar la noche juntos. Porque si pudiera elegir un regalo, sería poder compartir otra Navidad contigo.</p>
+                </div>
+            </div>
+
+            <div class="date-card">
+                <div class="date-number"><strong>31</strong><small>DIC</small></div>
+                <div>
+                    <h3>Última noche del año ✨</h3>
+                    <p>Mirarnos y pensar en todo lo que vivimos durante el año. Y agradecer que seguimos juntos, si algún día la vida nos permite llegar hasta ahí.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- =========================================
+     CORAZÓN INTERACTIVO
+========================================= -->
+<section class="heart-section">
+    <div class="section-container">
+        <div class="section-title">
+            <span>Una pequeña sorpresa</span>
+            <h2>Toca el corazón</h2>
+        </div>
+
+        <button class="heart" onclick="changeHeartMessage()">❤️</button>
+
+        <div class="heart-message" id="heartMessage">
+            Quizá este corazón no pueda arreglar nada,
+            pero puede recordarte algo:
+            todavía hay alguien que te quiere muchísimo.
+        </div>
+    </div>
+</section>
+
+
+<!-- =========================================
+     FUTURO
+========================================= -->
+<section>
+    <div class="section-container">
+        <div class="section-title">
+            <span>Si algún día tenemos otra oportunidad</span>
+            <h2>Todo lo que todavía sueño vivir contigo</h2>
+        </div>
+
+        <div class="future-grid">
+            <div class="future-card">
+                <div class="icon">🌻</div>
+                <h3>Flores</h3>
+                <p>Sorprenderte con flores sin que exista una fecha especial.</p>
+            </div>
+
+            <div class="future-card">
+                <div class="icon">📸</div>
+                <h3>Fotos</h3>
+                <p>Crear un álbum lleno de momentos que todavía no existen.</p>
+            </div>
+
+            <div class="future-card">
+                <div class="icon">🎮</div>
+                <h3>Más juegos</h3>
+                <p>Volver a jugar contigo y llenar nuestros mundos de recuerdos nuevos.</p>
+            </div>
+
+            <div class="future-card">
+                <div class="icon">🎁</div>
+                <h3>Detalles</h3>
+                <p>Regalos pequeños, cartas y sorpresas simplemente porque pensé en ti.</p>
+            </div>
+
+            <div class="future-card">
+                <div class="icon">🌙</div>
+                <h3>Noches largas</h3>
+                <p>Hablar hasta tarde sobre absolutamente cualquier cosa.</p>
+            </div>
+
+            <div class="future-card">
+                <div class="icon">✈️</div>
+                <h3>Lugares nuevos</h3>
+                <p>Tener fotografías de nosotros en lugares que todavía ni siquiera conocemos.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- =========================================
+     PROMESA
+========================================= -->
+<section>
+    <div class="section-container">
+        <div class="promise">
+            <h2>No quiero prometerte perfección</h2>
+
+            <p>Quiero prometerte algo más real: que voy a aprender.</p>
+
+            <p>Que voy a entender que la confianza se construye con pequeñas decisiones todos los días.</p>
+
+            <p>Que si alguna vez volvemos a hablar, no quiero convencerte con discursos. Quiero que puedas observar mis acciones y decidir por ti misma si realmente soy diferente.</p>
+
+            <p>No quiero que regreses porque te sentiste culpable. No quiero que regreses porque te insistí demasiado. No quiero que regreses porque esta página te hizo sentir que me debes algo.</p>
+
+            <p><strong>Quiero que, si algún día vuelves, sea porque tu corazón también lo quiere.</strong></p>
+
+            <p>Y mientras tanto, voy a tener que aprender a aceptar que querer a alguien también significa respetar sus decisiones.</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- =========================================
+     FINAL
+========================================= -->
+<section class="final-section">
+    <div class="final-card">
+        <div style="font-size:70px; margin-bottom: 20px;">🌻💛🌻</div>
+
+        <h2>Cielo...</h2>
+
+        <p>Si llegaste hasta aquí, gracias por leer.</p>
+
+        <p>No sé qué vas a decidir después de esto. Y aunque una parte de mí quisiera pedirte que vuelvas, también sé que no puedo decidir por ti.</p>
+
+        <p>Lo que sí puedo hacer es dejarte estas palabras:</p>
+
+        <p><strong>Te quise. Te quiero. Y si alguna vez la vida nos vuelve a poner frente a frente, quiero que conozcas una versión de mí que haya aprendido a cuidar de verdad.</strong></p>
+
+        <p>Hasta entonces, cuídate mucho.</p>
+
+        <div class="final-signature">
+            Con todo mi corazón,<br>
+            para Cielo. 💛
+        </div>
+    </div>
+</section>
+
+
+<footer>
+    Hecho con cariño, recuerdos y muchas flores amarillas 🌻
+</footer>
+
+
+<script>
+    /* ==============================
+       MENSAJES DEL CORAZÓN
+    ============================== */
+    const heartMessages = [
+        "Te quiero, pero también quiero aprender a quererte de una manera que no te haga daño.",
+        "Si algún día me das otra oportunidad, quiero demostrarte con hechos que aprendí.",
+        "No quiero borrar nuestro pasado. Quiero aprender de él.",
+        "Hay recuerdos que duelen y aun así uno los guarda con cariño.",
+        "Ojalá algún día puedas volver a verme y sentir tranquilidad, no dolor.",
+        "No necesito una fecha especial para pensar en ti.",
+        "Si algún día volvemos a caminar juntos, quiero que sea porque ambos elegimos hacerlo.",
+        "Hasta las cosas pequeñas contigo llegaron a significar muchísimo para mí.",
+        "Quizá no pueda cambiar lo que hice, pero sí puedo cambiar quién decido ser después de ello.",
+        "Y si las flores amarillas significan algo, para mí significan esperanza."
+    ];
+
+    let heartIndex = 0;
+
+    function changeHeartMessage() {
+        const message = document.getElementById("heartMessage");
+        heartIndex++;
+        if (heartIndex >= heartMessages.length) heartIndex = 0;
+
+        message.style.opacity = 0;
+        setTimeout(() => {
+            message.textContent = heartMessages[heartIndex];
+            message.style.opacity = 1;
+        }, 200);
+    }
+
+    /* ==============================
+       EFECTO DE CORAZONES AL HACER CLIC
+    ============================== */
+    document.querySelector(".heart").addEventListener("click", function () {
+        for (let i = 0; i < 10; i++) {
+            const heart = document.createElement("span");
+            heart.textContent = "💛";
+            heart.style.position = "fixed";
+            heart.style.left = "50%";
+            heart.style.top = "50%";
+            heart.style.pointerEvents = "none";
+            heart.style.fontSize = "22px";
+            heart.style.zIndex = "9999";
+            heart.style.willChange = "transform, opacity";
+
+            const angle = (Math.PI * 2 / 10) * i;
+            const distance = 120 + Math.random() * 60;
+
+            heart.animate(
+                [
+                    { transform: "translate(-50%, -50%) scale(1)", opacity: 1 },
+                    {
+                        transform: `translate(calc(-50% + ${Math.cos(angle) * distance}px), calc(-50% + ${Math.sin(angle) * distance}px)) scale(.2)`,
+                        opacity: 0
+                    }
+                ],
+                {
+                    duration: 1000 + Math.random() * 400,
+                    easing: "cubic-bezier(.2,.8,.3,1)"
+                }
+            );
+
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 1400);
+        }
+    });
+
+    /* ==============================
+       REPRODUCTOR DE MÚSICA — "4 LIFE" DE KRIS R
+    ============================== */
+    const bgMusic = document.getElementById('bgMusic');
+    const musicBtn = document.getElementById('musicBtn');
+    let isPlaying = false;
+
+    // Intentar reproducir al hacer clic en cualquier parte (política de autoplay)
+    function startMusic() {
+        if (!isPlaying) {
+            bgMusic.volume = 0.35; // Volumen suave
+            bgMusic.play().then(() => {
+                isPlaying = true;
+                musicBtn.classList.add('playing');
+            }).catch((e) => {
+                console.log("Reproducción automática bloqueada:", e);
+            });
+        }
+        // Remover el listener después del primer clic exitoso
+        document.removeEventListener('click', startMusic);
+        document.removeEventListener('touchstart', startMusic);
+    }
+
+    // Botón de música
+    musicBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        if (isPlaying) {
+            bgMusic.pause();
+            isPlaying = false;
+            musicBtn.classList.remove('playing');
+        } else {
+            bgMusic.volume = 0.35;
+            bgMusic.play().then(() => {
+                isPlaying = true;
+                musicBtn.classList.add('playing');
+            }).catch((err) => {
+                console.log("Error al reproducir:", err);
+            });
+        }
+    });
+
+    // Iniciar música al primer clic en cualquier parte del documento
+    document.addEventListener('click', startMusic, { once: false });
+    document.addEventListener('touchstart', startMusic, { once: false });
+
+    // Si el audio termina (aunque es loop), actualizar estado
+    bgMusic.addEventListener('ended', () => {
+        isPlaying = false;
+        musicBtn.classList.remove('playing');
+    });
+
+    /* ==============================
+       ANIMACIONES DE ENTRADA (Intersection Observer)
+    ============================== */
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    // Aplicar a secciones y tarjetas
+    document.querySelectorAll('section, .memory, .future-card, .date-card, .roblox-card, .promise, .letter').forEach(el => {
+        el.classList.add('fade-in');
+        observer.observe(el);
+    });
+
+    /* ==============================
+       SCROLL SUAVE PARA EL BOTÓN
+    ============================== */
+    document.querySelector('.scroll-button').addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    });
+</script>
+
+</body>
+</html>
